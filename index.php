@@ -13,10 +13,14 @@ Flight::route('/', function() {
     Flight::render('menu');
 });
 
-// route de la carte du jeu
 Flight::route('/burkina', function() {
     Flight::render('burkina');
 });
+
+Flight::route('/panama', function() {
+    Flight::render('panama');
+});
+
 
 Flight::start();
 
