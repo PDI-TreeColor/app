@@ -1,0 +1,30 @@
+.projet {
+  background: white;
+  border-radius: 14px;
+  overflow: hidden;
+  width: 300px;
+  border: 1px solid #000;
+}
+
+.carte:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 12px 28px …;
+}
+
+.carte-image {
+  height: 160px;
+  background: #C0DD97;
+}
+
+.barre-progression {
+  background: #639922;
+  width: 74%;
+  height: 6px;
+  border-radius: 99px;
+}
+
+.carte-bouton {
+  background: #3B6D11;
+  color: white;
+  border-radius: 8px;
+}
