@@ -40,7 +40,55 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <div id="map"></div>
-    <input type="date" id="calendrier" onchange="handler(event);"/>
+    <div id="calendrier">
+        <select name="year" id="year-select"></select>
+        <select name="month" id="month-select"></select>
+        <script>
+            const yearSelect = document.getElementById("year-select")
+            const monthSelect = document.getElementById("month-select")
+
+            var today = new Date().toJSON().slice(0,7)
+            var todayYear = Number(today.slice(0,4))
+            var todayMonth = Number(today.slice(5,7))
+
+            function removeSelectOptions(selectElement) {
+                var i, L = selectElement.options.length - 1;
+                for(i = L; i >= 0; i--) {
+                    selectElement.remove(i);
+                }
+            }
+
+            function updateAvailableMonths(year) {
+                removeSelectOptions(monthSelect);
+                var lastMonthAvailable = 12
+                if (year == todayYear) {
+                    lastMonthAvailable = todayMonth;
+                }
+                for (let i = 1; i<=lastMonthAvailable; i++) {
+                    var opt = document.createElement("option");
+                    opt.value = i.toString()
+                    opt.text = i.toString()
+                    monthSelect.add(opt, null)
+                }
+            }
+
+            for (let i = 2016; i<=todayYear; i++) {
+                var opt = document.createElement("option");
+                opt.value = i.toString()
+                opt.text = i.toString()
+                yearSelect.add(opt, null)
+            }
+
+            yearSelect.value = todayYear;
+
+            updateAvailableMonths(todayYear)
+
+            yearSelect.addEventListener("change", (event) => {
+                year = Number(event.target.value);
+                updateAvailableMonths(year);
+            });
+        </script>
+    </div>
     
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"

@@ -35,9 +35,11 @@ fetch(`data/${zone}/${zone}.geojson`)
 
 // Import des couches Copernicus
 
-var date = new Date().toJSON().slice(0,10);
-var today = date;
-console.log(date);
+var selectedYear = document.getElementById("year-select").value;
+var selectedMonth = document.getElementById("month-select").value;
+
+var selectedDate = `${selectedYear}-${selectedMonth}`
+
 
 var urlWmsCopernicus = `https://sh.dataspace.copernicus.eu/ogc/wms/040a9e84-1617-4bf1-9b85-1e537e4fcb0d?TIME=${date}`
 
@@ -57,9 +59,11 @@ Object.entries(copernicusLayers).forEach(([nom, layer]) => {
 
 // Comportement du calendrier
 
+/*
 var calendrier = document.getElementById("calendrier")
 calendrier.value = today;
 calendrier.setAttribute("max", today);
+*/
 
 function handler(e){
     date = e.target.value;
