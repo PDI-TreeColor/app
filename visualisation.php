@@ -35,13 +35,35 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             z-index: 1;
         }
 
+        #PLUS {
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        
+        #formulaire{
+            position:absolute;
+            top:80px;
+            right:20px;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.3);
+            display:none;
+            z-index:1000;
+        }
+
 
     </style>
 </head>
 <body>
     <div id="map"></div>
     <input type="date" id="calendrier" onchange="handler(event);"/>
+
     
+
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
         integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="

@@ -69,3 +69,14 @@ function handler(e){
         layer.setUrl(urlWmsCopernicus);
 });
 }
+
+
+// Ajout d'une zone
+
+function ouvrirForm(){
+    document.getElementById("formulaire").style.display = "block";
+}
+
+function fermerForm(){
+    document.getElementById("formulaire").style.display = "none";
+}
