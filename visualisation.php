@@ -35,12 +35,80 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             z-index: 1;
         }
 
+        #PLUS {
+            position: absolute;
+            top: 80px;
+            right: 20px;
+            z-index: 1000;
+        }
+
+        
+        #formulaire{
+            position:absolute;
+            top:80px;
+            right:20px;
+            background:white;
+            padding:20px;
+            border-radius:10px;
+            box-shadow:0 0 10px rgba(0,0,0,0.3);
+            display:none;
+            z-index:1000;
+        }
+
 
     </style>
 </head>
 <body>
     <div id="map"></div>
-    <input type="date" id="calendrier" onchange="handler(event);"/>
+    <div id="calendrier">
+        <select name="year" id="year-select"></select>
+        <select name="month" id="month-select"></select>
+        <script>
+            const yearSelect = document.getElementById("year-select")
+            const monthSelect = document.getElementById("month-select")
+
+            var today = new Date().toJSON().slice(0,7)
+            var todayYear = Number(today.slice(0,4))
+            var todayMonth = Number(today.slice(5,7))
+
+            function removeSelectOptions(selectElement) {
+                var i, L = selectElement.options.length - 1;
+                for(i = L; i >= 0; i--) {
+                    selectElement.remove(i);
+                }
+            }
+
+            function updateAvailableMonths(year) {
+                removeSelectOptions(monthSelect);
+                var lastMonthAvailable = 12
+                if (year == todayYear) {
+                    lastMonthAvailable = todayMonth;
+                }
+                for (let i = 1; i<=lastMonthAvailable; i++) {
+                    var opt = document.createElement("option");
+                    opt.value = i.toString()
+                    opt.text = i.toString()
+                    monthSelect.add(opt, null)
+                }
+            }
+
+            for (let i = 2016; i<=todayYear; i++) {
+                var opt = document.createElement("option");
+                opt.value = i.toString()
+                opt.text = i.toString()
+                yearSelect.add(opt, null)
+            }
+
+            yearSelect.value = todayYear;
+
+            updateAvailableMonths(todayYear)
+
+            yearSelect.addEventListener("change", (event) => {
+                year = Number(event.target.value);
+                updateAvailableMonths(year);
+            });
+        </script>
+    </div>
     
     <!-- Make sure you put this AFTER Leaflet's CSS -->
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"

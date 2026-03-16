@@ -7,7 +7,6 @@ services:
     environment:
       - POSTGRES_USER=treecolor
       - POSTGRES_PASSWORD=treecolor
-      - POSTGRES_DB=zones
     volumes:
       - postgres_data:/var/lib/postgresql/data
     restart: always
