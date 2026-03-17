@@ -29,6 +29,45 @@
     </style>
 </head>
 <body>
+    <?php
+
+    function ajouterZone(){
+        $conn = pg_connect("host=db dbname=mydb user=treecolor password=treecolor");
+
+        $nom = $_POST['projet'];
+
+        $file = $_FILES['geojson']['tmp_name'];
+        $geojson = file_get_contents($file);
+        $data = json_decode($geojson, true);
+
+        $geometry = json_encode($data['features'][0]['geometry']);
+
+        $nomImage = $nom . '/' . basename($_FILES['image']['name']);
+        $dossier = '/var/www/html/data/' . $nom . '/';
+
+        $destination = $dossier . basename($_FILES['image']['name']);
+        $moveResult = move_uploaded_file($_FILES['image']['tmp_name'], $destination);
+        
+        $query = "
+            INSERT INTO zones (nom, geom, image)
+            VALUES (
+                $1,
+                ST_SetSRID(ST_GeomFromGeoJSON($2),4326),
+                $3
+            )
+        ";
+
+        $result = pg_query_params($conn, $query, [$nom, $geometry, $nomImage]);
+    }
+
+    if(isset($_POST['ajouter_zone'])){
+        ajouterZone();
+    }
+
+    ?>
+
+    
+
     <div class="container mt-5">
 
         <div class="row">
@@ -68,27 +107,22 @@
     </div>
 
     <div id="PLUS">
-        <button onclick="ouvrirForm()">AJOUTER UNE ZONE</button>
+        <button onclick="ouvrirForm()">AJOUTER UN PAYS</button>
     </div>
 
     <div id="formulaire">
-        <form action="visualisation.php" method="GET" enctype="multipart/form-data">
+        <form method="POST" enctype="multipart/form-data">
 
-            <label for="projet">Nom de la zone :</label><br>
+            <label for="projet">Nom du projet :</label><br>
             <input type="text" id="projet" name="projet" required><br><br>
 
-            <label>Type de zone :</label><br>
+            <label for="file">Fichier GEOJSON :</label><br>
+            <input type="file" id="file" name="geojson" accept=".geojson,.json" required><br><br>
 
-            <input type="radio" id="reforester" name="type_zone" value="reforester" required>
-            <label for="reforester">Zone à reforester</label><br>
+            <label for="image">Image de la carte :</label><br>
+            <input type="file" id="image" name="image" accept=".png,.jpg,.jpeg" required><br><br>
 
-            <input type="radio" id="reforestee" name="type_zone" value="reforestee">
-            <label for="reforestee">Zone reforestée</label><br><br>
-
-            <label for="file">coordonnées :</label><br>
-            <input type="file" id="file" name="file"><br><br>
-
-            <button type="button" onclick="validerForm()">Valider</button>
+            <button type="submit" name="ajouter_zone">Valider</button>
             <button type="button" onclick="fermerForm()">Fermer</button>
 
         </form>
