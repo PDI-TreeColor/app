@@ -45,6 +45,11 @@
         $nomImage = $nom . '/' . basename($_FILES['image']['name']);
         $dossier = '/var/www/html/data/' . $nom . '/';
 
+        // Crée le dossier si il n'existe pas
+        if(!is_dir($dossier)){
+            mkdir($dossier, 0777, true);
+        }
+
         $destination = $dossier . basename($_FILES['image']['name']);
         $moveResult = move_uploaded_file($_FILES['image']['tmp_name'], $destination);
         
