@@ -1,0 +1,12 @@
+#map {
+    height: 100em;
+    z-index: 0;
+}
+
+#calendar {
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    z-index: 1;
+}
+
