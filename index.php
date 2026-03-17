@@ -4,7 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
-    <title>TreeColor</title>
+    <title>Accueil TreeColor</title>
+    <link href="style.css" rel="stylesheet">
     <style>
         #PLUS {
             position: absolute;
@@ -29,86 +30,80 @@
     </style>
 </head>
 <body>
+    <h1>Bienvenue sur l'application de suivie des projets TreeColor</h1>
+
     <?php
 
-    function ajouterZone(){
-        $conn = pg_connect("host=db dbname=mydb user=treecolor password=treecolor");
+        function ajouterZone(){
+            $conn = pg_connect("host=db dbname=mydb user=treecolor password=treecolor");
 
-        $nom = $_POST['projet'];
+            $nom = $_POST['projet'];
 
-        $file = $_FILES['geojson']['tmp_name'];
-        $geojson = file_get_contents($file);
-        $data = json_decode($geojson, true);
+            $file = $_FILES['geojson']['tmp_name'];
+            $geojson = file_get_contents($file);
+            $data = json_decode($geojson, true);
 
-        $geometry = json_encode($data['features'][0]['geometry']);
+            $geometry = json_encode($data['features'][0]['geometry']);
 
-        $nomImage = $nom . '/' . basename($_FILES['image']['name']);
-        $dossier = '/var/www/html/data/' . $nom . '/';
+            $nomImage = $nom . '/' . basename($_FILES['image']['name']);
+            $dossier = '/var/www/html/data/' . $nom . '/';
 
-        // Crée le dossier si il n'existe pas
-        if(!is_dir($dossier)){
-            mkdir($dossier, 0777, true);
+            // Crée le dossier si il n'existe pas
+            if(!is_dir($dossier)){
+                mkdir($dossier, 0777, true);
+            }
+
+            $destination = $dossier . basename($_FILES['image']['name']);
+            $moveResult = move_uploaded_file($_FILES['image']['tmp_name'], $destination);
+            
+            $query = "
+                INSERT INTO zones (nom, geom, image)
+                VALUES (
+                    $1,
+                    ST_SetSRID(ST_GeomFromGeoJSON($2),4326),
+                    $3
+                )
+            ";
+
+            $result = pg_query_params($conn, $query, [$nom, $geometry, $nomImage]);
         }
 
-        $destination = $dossier . basename($_FILES['image']['name']);
-        $moveResult = move_uploaded_file($_FILES['image']['tmp_name'], $destination);
-        
-        $query = "
-            INSERT INTO zones (nom, geom, image)
-            VALUES (
-                $1,
-                ST_SetSRID(ST_GeomFromGeoJSON($2),4326),
-                $3
-            )
-        ";
-
-        $result = pg_query_params($conn, $query, [$nom, $geometry, $nomImage]);
-    }
-
-    if(isset($_POST['ajouter_zone'])){
-        ajouterZone();
-    }
+        if(isset($_POST['ajouter_zone'])){
+            ajouterZone();
+        }
 
     ?>
 
-    
+    <div class="projets-container">
+        <?php
+            $dossiers = scandir("./data");
+            foreach($dossiers as $pays){
+                if($pays == '.' || $pays == '..') continue;
+                
+                $dossier = './data/' . $pays;
+                if(!is_dir($dossier)) continue;
 
-    <div class="container mt-5">
+                $image = '';
+                $fichiers = scandir($dossier);
+                foreach($fichiers as $fichier){
+                    if(strpos($fichier, '.png') || strpos($fichier, '.jpg') || strpos($fichier, '.jpeg')){
+                        $image = $fichier;
+                    }
+                }
 
-        <div class="row">
-            
-            <div class="col">
-
-                <div class="card mx-auto" style="width: fit-content;">
-                    <img src="data/burkina/burkina_card.png" class="card-img-top" alt="..." style="width: 300px;">
+                $nomImage = 'data/' . $pays . '/' . $image;
+            ?>
+                <div class="projet">
+                    <h3> Projet <?php echo $pays; ?> </h3>
+                    <img src="<?php echo $nomImage; ?>" class="card-img-top" alt="..." style="width: 300px;">
                     <div class="card-body">
-                        <h5 class="card-title">Burkina Faso</h5>
                         <form action="visualisation.php" method="GET">
-                            <input type="hidden" name="projet" value="burkina">
-                            <button class="btn btn-primary">Voir le projet</button>
+                            <input type="hidden" name="projet" value="<?php echo $pays; ?>">
+                            <button class="carte-bouton">Voir le projet</button>
                         </form>
                     </div>
                 </div>
-
-            </div>  
-
-            <div class="col">
-            
-                <div class="card mx-auto" style="width: fit-content;">
-                    <img src="data/panama/panama_card.png" class="card-img-top" alt="..." style="width: 300px;">
-                    <div class="card-body">
-                        <h5 class="card-title">Panama</h5>
-                        <form action="visualisation.php" method="GET">
-                            <input type="hidden" name="projet" value="panama">
-                            <button class="btn btn-primary">Voir le projet</button>
-                        </form>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
+            <?php } ?>
     </div>
 
     <div id="PLUS">
@@ -132,7 +127,6 @@
 
         </form>
     </div>
-
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
     <script src="js/map.js"></script>
 </body>

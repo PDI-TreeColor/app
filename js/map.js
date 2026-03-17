@@ -75,6 +75,14 @@ function updateCopernicusLayers(date) {
     })
 }
 
+function ouvrirForm(){
+    document.getElementById("formulaire").style.display = "block";
+}
+
+function fermerForm(){
+    document.getElementById("formulaire").style.display = "none";
+}
+
 calendar.addEventListener("change", (event) => {
     var date = getSelectedDate();
     updateCopernicusLayers(date);
