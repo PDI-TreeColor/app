@@ -1,9 +1,24 @@
+.projets-container {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+}
+
 .projet {
   background: white;
   border-radius: 14px;
   overflow: hidden;
   width: 300px;
   border: 1px solid #000;
+  text-align: center;  
+  padding-bottom: 10px;  
+}
+
+.projet img {
+  width: 100%;
+  height: auto;
+  max-width: 300px;
+  max-height: 200px;
 }
 
 .carte:hover {
@@ -27,4 +42,7 @@
   background: #3B6D11;
   color: white;
   border-radius: 8px;
+  margin-top: 10px;  
 }
+
+
