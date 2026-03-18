@@ -10,3 +10,17 @@
     z-index: 1;
 }
 
+#accueil {
+    position: absolute;
+    bottom: 5%;
+    left: 2%;
+    z-index: 1;
+}
+
+.bouton_accueil {
+    background: black;
+    color: white;
+    border-radius: 8px;
+    padding: 8px 16px;
+    cursor: pointer;
+}
