@@ -83,7 +83,7 @@
     </style>
 </head>
 <body>
-    <h1>Bienvenue sur l'application de suivie des projets TreeColor</h1>
+    <h1>Bienvenue sur l'application de suivi des projets TreeColor</h1>
 
     <div class="projets-container">
         <?php
