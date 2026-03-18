@@ -45,4 +45,27 @@
   margin-top: 10px;  
 }
 
+.bouton-suppr {
+  background: red;
+  color: white;
+  border-radius: 8px;
+  margin-top: 10px;  
+}
 
+#PLUS {
+  position: absolute;
+  left: 45%;
+  bottom: 10%;
+  font-size: 20px;
+}
+
+#formulaire{
+  position: absolute;
+  left: 45%;
+  bottom: 10%;
+  background:white;
+  padding:20px;
+  border-radius:10px;
+  box-shadow:0 0 10px rgba(0,0,0,0.3);
+  display:none;
+}
