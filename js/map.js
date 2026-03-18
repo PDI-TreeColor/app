@@ -1,9 +1,10 @@
-URL_WMS_COPERNICUS = "https://sh.dataspace.copernicus.eu/ogc/wms/040a9e84-1617-4bf1-9b85-1e537e4fcb0d";
+const URL_WMS_COPERNICUS = "https://sh.dataspace.copernicus.eu/ogc/wms/040a9e84-1617-4bf1-9b85-1e537e4fcb0d";
 
 // Récupérer l'ID du projet
 const paramsString = window.location.search;
 const searchParams = new URLSearchParams(paramsString);
-const idProjet = searchParams.get("id_projet");
+const idProjet = searchParams.get("projet");
+
 
 // Création de la carte
 const map = L.map('map');
@@ -17,7 +18,7 @@ const osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 const layerControl = L.control.layers({'OpenStreetMaps': osmLayer}, {}, {collapsed: false}).addTo(map);
 
 // Afficher la zone du projet
-fetch(`read_db.php?id_projet=${idProjet}`)
+fetch(`read_db.php?projet=${idProjet}`)
     .then(response => response.json())
     .then(data => {
         let popupContent = document.createElement('span');
@@ -43,7 +44,7 @@ function updateDateWmsUrl() {
     
 }
 let date = getSelectedDate();
-let wmsUrl = `${URL_WMS_COPERNICUS}?TIME=${date}`;
+let urlWmsCopernicus = `${URL_WMS_COPERNICUS}?TIME=${date}`;
 
 let copernicusLayers = {
     'Couleurs naturelles': L.tileLayer.wms(urlWmsCopernicus, {

@@ -98,7 +98,7 @@
                     <img src="data/<?php echo $zone['image']; ?>" class="card-img-top" alt="..." style="width: 300px;">
                     <div class="card-body">
                         <form action="visualisation.php" method="GET">
-                            <input type="hidden" name="projet" value="<?php echo $zone['nom']; ?>">
+                            <input type="hidden" name="projet" value="<?php echo $zone['id'] ?>">
                             <button class="carte-bouton">Voir le projet</button>
                         </form>
 

@@ -2,9 +2,9 @@
 header('Content-Type: application/json');
 header('Access-Control-Allow-Origin: *');
 
-$host = "localhost";
+$host = "db";
 $port = "5432";
-$dbname = "zones";
+$dbname = "mydb";
 $user = "treecolor";
 $password = "treecolor";
 
@@ -15,7 +15,7 @@ try {
     exit;
 }
 
-$idProjet = $_GET['id_projet'] ?? null;
+$idProjet = $_GET['projet'] ?? null;
 $params = [];
 
 // 1. On prépare la base de la requête
@@ -46,6 +46,7 @@ FROM (
     $sql_where
   ) inputs
 ) features";
+
 
 $stmt = $db->prepare($sql);
 $stmt->execute($params);
