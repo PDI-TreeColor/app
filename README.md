@@ -79,7 +79,6 @@ La page d'accueil (`index.php`) liste tous les projets existants et vous permet 
 *   **Sur la page de la carte (`visualisation.php`)** :
     *   **Couches** : Utilisez le contrôle des couches en haut à droite pour basculer entre les fonds de carte (OpenStreetMap, Copernicus) et pour afficher/masquer la zone du projet.
     *   **Sélection de la date** : Utilisez les menus déroulants en haut à gauche pour sélectionner une année et un mois. Cela mettra à jour les couches satellites Copernicus pour afficher les données de cette période.
-    *   **Outil de mesure** : Utilisez l'icône de la règle en haut à droite pour mesurer des distances et des surfaces sur la carte.
 
 ## 6. Structure des Fichiers
 
