@@ -1,3 +1,7 @@
+<!-- 
+    Page de visualisation.
+    Affiche une carte interactive (Leaflet) et des contrôles temporels.
+-->
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -11,7 +15,10 @@
     <link rel="stylesheet" href="style_visualisation.css">
 </head>
 <body>
+    <!-- Conteneur de la carte Leaflet -->
     <div id="map"></div>
+    
+    <!-- Sélecteurs de date pour filtrer les données -->
     <div id="calendar">
         <select name="year" id="year-select"></select>
         <select name="month" id="month-select"></select>

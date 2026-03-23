@@ -1,6 +1,15 @@
 <?php
+/**
+ * Page d'accueil et d'administration.
+ * Permet de lister, ajouter et supprimer des projets (zones).
+ */
 
+    /**
+     * Ajoute une nouvelle zone en base de données.
+     * Traite l'upload du fichier KML et de l'image, convertit le KML en GeoJSON via geoPHP.
+     */
     function ajouterZone(){
+        // Chargement des dépendances via Composer (notamment geoPHP)
         require_once '/var/www/html/vendor/autoload.php';
 
         $conn = pg_connect("host=db dbname=mydb user=treecolor password=treecolor");
@@ -15,11 +24,13 @@
         $geojsonArray = json_decode($geojsonData, true);
         $geometryJson = json_encode($geojsonArray);
 
+        // Création du dossier pour stocker les assets du projet
         $dossier = '/var/www/html/data/' . $nom . '/';
         if(!is_dir($dossier)){
             mkdir($dossier, 0777, true);
         }
 
+        // Sauvegarde d'une copie locale du GeoJSON
         file_put_contents($dossier . $nom . '.geojson', json_encode([
             'type' => 'FeatureCollection',
             'features' => [[
@@ -29,10 +40,12 @@
             ]]
         ]));
 
+        // Gestion de l'upload de l'image
         $nomImage = $nom . '/' . basename($_FILES['image']['name']);
         $destination = $dossier . basename($_FILES['image']['name']);
         move_uploaded_file($_FILES['image']['tmp_name'], $destination);
 
+        // Insertion en base de données avec conversion GeoJSON -> Geometry PostGIS
         $query = "
             INSERT INTO zones (nom, geom, image)
             VALUES (
@@ -46,6 +59,9 @@
 
     }
 
+    /**
+     * Supprime une zone de la base de données via son ID.
+     */
     function supprimerZone(){
         $conn = pg_connect("host=db dbname=mydb user=treecolor password=treecolor");
         $id = $_POST['supprimer_zone'];
@@ -53,10 +69,10 @@
         pg_query_params($conn, $query, [$id]);
     }
 
-
+    // --- Routeur simple pour traiter les actions POST ---
     if(isset($_POST['ajouter_zone'])){
         ajouterZone();
-        header('Location: ' . $_SERVER['PHP_SELF']);
+        header('Location: ' . $_SERVER['PHP_SELF']); // Redirection pour éviter la resoumission du formulaire
         exit();
     }
 
@@ -87,6 +103,7 @@
 
     <div class="projets-container">
         <?php
+            // Connexion pour l'affichage de la liste des projets
             $conn = pg_connect("host=db dbname=mydb user=treecolor password=treecolor");
             
             $result = pg_query($conn, "SELECT id, nom, image FROM zones");
