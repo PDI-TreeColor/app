@@ -17,6 +17,16 @@ const osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
 // Ajout d'un gestionnaire de couche
 const layerControl = L.control.layers({'OpenStreetMaps': osmLayer}, {}, {collapsed: false}).addTo(map);
 
+// Ajout de l'outil de mesure (distances et surfaces)
+const measureControl = L.control.measure({
+    position: 'topright',
+    primaryLengthUnit: 'meters', 
+    secondaryLengthUnit: 'kilometers',
+    primaryAreaUnit: 'sqmeters', 
+    secondaryAreaUnit: 'hectares'
+});
+measureControl.addTo(map);
+
 // Afficher la zone du projet
 fetch(`read_db.php?projet=${idProjet}`)
     .then(response => response.json())
@@ -88,9 +98,3 @@ calendar.addEventListener("change", (event) => {
     var date = getSelectedDate();
     updateCopernicusLayers(date);
 });
-
-
-
-
-
-
