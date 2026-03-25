@@ -5,6 +5,8 @@ function removeSelectOptions(selectElement) {
     }
 }
 
+const monthNames = ["Janvier", "Février", "Mars", "Avril", "Mai", "Juin", "Juillet", "Août", "Septembre", "Octobre", "Novembre", "Décembre"];
+
 function updateAvailableMonths(year) {
     removeSelectOptions(monthSelect);
     var lastMonthAvailable = 12
@@ -14,7 +16,7 @@ function updateAvailableMonths(year) {
     for (let i = 1; i<=lastMonthAvailable; i++) {
         var opt = document.createElement("option");
         opt.value = i.toString()
-        opt.text = i.toString()
+        opt.text = monthNames[i - 1]
         monthSelect.add(opt, null)
     }
 }
