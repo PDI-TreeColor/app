@@ -10,6 +10,7 @@ L'outil offre une interface moderne permettant de visualiser des données géosp
 - **Gestion de projets** : Interface CRUD pour ajouter et supprimer des zones de reforestation.
 - **Dessin interactif** : Outil de délimitation de zones directement sur la carte via Leaflet Draw (remplace les imports KML).
 - **Imagerie Satellite (Copernicus)** : Intégration des flux WMS de Sentinel-2 pour visualiser les indices de végétation, les couleurs naturelles et l'infrarouge.
+- **Photos de Terrain Géo-taguées** : Possibilité d'ajouter des photos directement sur la carte via extraction EXIF (données GPS déjà présentes dans l'image).
 - **Analyse Temporelle** : Sélecteur de date dynamique pour remonter le temps et observer l'évolution d'une parcelle.
 - **Cartographie Multi-sources** : Bascule entre Google Satellite, OpenStreetMap et les couches Copernicus.
 - **Architecture Robuste** : Structure MVC simplifiée en PHP avec base de données spatiale PostgreSQL/PostGIS.
@@ -50,7 +51,7 @@ L'application est entièrement conteneurisée pour faciliter son déploiement su
 - `/styles` : Design system (CSS) et thématique visuelle.
 - `/js` : Logique cartographique Leaflet et interactions frontend.
 - `/docker` : Configuration des conteneurs et script d'initialisation SQL (`init.sql`).
-- `/data` : Stockage des images des projets (organisé par ID).
+- `/data` : Stockage des images des projets et des photos de terrain (organisé par ID).
 
 ---
 
