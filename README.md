@@ -42,14 +42,6 @@ L'application est entièrement conteneurisée pour faciliter son déploiement su
    Une fois les conteneurs démarrés, ouvrez votre navigateur à l'adresse suivante :
    👉 **[http://localhost:8080](http://localhost:8080)**
 
-4. **Accès Base de Données (Optionnel)**
-   Si vous souhaitez explorer les données géométriques avec un outil comme DBeaver ou pgAdmin :
-   - **Hôte** : `localhost`
-   - **Port** : `5433`
-   - **Utilisateur** : `treecolor`
-   - **Mot de passe** : `treecolor`
-   - **Base de données** : `treecolor`
-
 ---
 
 ## 📂 Structure du Code
