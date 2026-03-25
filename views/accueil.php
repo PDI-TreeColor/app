@@ -90,7 +90,7 @@ endforeach; ?>
                 return;
             }
 
-            drawMap = L.map('map-draw').setView([8.5379, -80.7821], 2); // Vue par défaut
+            drawMap = L.map('map-draw').setView([0, 0], 2);
 
             const osmLayer = L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
                 maxZoom: 19,
