@@ -41,7 +41,7 @@ endforeach; ?>
     </div>
 
     <div id="PLUS">
-        <button onclick="ouvrirForm()">AJOUTER UN PAYS</button>
+        <button onclick="ouvrirForm()">AJOUTER UN PROJET</button>
     </div>
 
     <div id="formulaire">
@@ -57,12 +57,13 @@ endforeach; ?>
                     <button type="submit" name="ajouter_zone">Valider</button>
                     <button type="button" onclick="fermerForm()">Fermer</button>
                 </div>
-                
+
                 <div class="form-map">
                     <label>Dessiner la zone du projet :</label><br>
                     <div id="map-draw"></div>
                     <input type="hidden" id="geojson-input" name="geojson" required>
-                    <small id="draw-help" style="color: red; display: none; margin-bottom: 10px;">Veuillez dessiner un polygone sur la carte.</small><br>
+                    <small id="draw-help" style="color: red; display: none; margin-bottom: 10px;">Veuillez dessiner un
+                        polygone sur la carte.</small><br>
                 </div>
             </div>
         </form>
