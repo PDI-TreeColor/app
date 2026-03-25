@@ -2,18 +2,17 @@
 
 ## Présentation du Projet
 
-Ce projet est une application web interactive conçue pour l'association TreeColor. Elle permet de cartographier, suivre et analyser l'évolution de projets de reforestation à travers le monde (Panama, Burkina Faso, Népal, etc.).
+Ce projet est une application web interactive conçue pour l'association TreeColor. Elle permet de cartographier, suivre et analyser l'évolution de projets de reforestation à travers le monde (Panama, Burkina Faso, etc.).
 
 L'outil offre une interface moderne permettant de visualiser des données géospatiales précises et de superposer des images satellites temporelles pour observer la croissance de la végétation au fil des mois.
 
 ### ✨ Fonctionnalités Clés
-- **Gestion de projets** : Interface CRUD pour ajouter et supprimer des zones de reforestation.
-- **Dessin interactif** : Outil de délimitation de zones directement sur la carte via Leaflet Draw (remplace les imports KML).
+- **Gestion de projets** : Interface pour ajouter et supprimer des zones de reforestation.
+- **Dessin interactif** : Outil de délimitation de zones directement sur la carte.
 - **Imagerie Satellite (Copernicus)** : Intégration des flux WMS de Sentinel-2 pour visualiser les indices de végétation, les couleurs naturelles et l'infrarouge.
-- **Photos de Terrain Géo-taguées** : Possibilité d'ajouter des photos directement sur la carte via extraction EXIF (données GPS déjà présentes dans l'image).
+- **Photos de Terrain Géo-taguées** : Possibilité d'ajouter des photos géo-taguées directement sur la carte.
 - **Analyse Temporelle** : Sélecteur de date dynamique pour remonter le temps et observer l'évolution d'une parcelle.
 - **Cartographie Multi-sources** : Bascule entre Google Satellite, OpenStreetMap et les couches Copernicus.
-- **Architecture Robuste** : Structure MVC simplifiée en PHP avec base de données spatiale PostgreSQL/PostGIS.
 
 ---
 
@@ -60,6 +59,3 @@ L'application est entièrement conteneurisée pour faciliter son déploiement su
 - **Texte** : Police *Calibri*.
 - **Couleurs** : Vert Forêt (`#2b8a3e`), Rose Magentà (`#d63384`), Noir (`#000000`).
 - **Formes** : Boutons et composants 100% carrés pour un look "Bold & Clean".
-
----
-*Développé pour l'association TreeColor - 2026*
