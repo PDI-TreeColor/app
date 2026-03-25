@@ -28,14 +28,13 @@ L'application est entièrement conteneurisée pour faciliter son déploiement su
 
 1. **Récupérer les sources**
    ```bash
-   git clone <url-du-depot>
-   cd treecolor
+   git clone https://github.com/PDI-TreeColor/app
+   cd app/docker
    ```
 
 2. **Lancer l'infrastructure**
-   Depuis la racine du projet, utilisez Docker Compose pour démarrer le serveur Web (PHP 8.2) et la base de données (PostGIS) :
    ```bash
-   docker compose -f docker/docker-compose.yml up -d --build
+   docker compose up
    ```
 
 3. **Accéder à l'interface**
