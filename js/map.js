@@ -21,10 +21,37 @@ if (document.getElementById('map')) {
     // Ajout d'une couche OpenStreetMaps
     const osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
         attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-    }).addTo(map);
+    });
+
+    // Ajout de la couche Google Satellite
+    const googleSat = L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+        maxZoom: 20,
+        subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
+        attribution: '© Google'
+    });
 
     // Ajout d'un gestionnaire de couche
-    const layerControl = L.control.layers({ 'OpenStreetMaps': osmLayer }, {}, { collapsed: false }).addTo(map);
+    const layerControl = L.control.layers({ 
+        'OpenStreetMaps': osmLayer,
+        'Satellite (Google)': googleSat 
+    }, {}, { collapsed: false }).addTo(map);
+
+    // Gestion de l'état du calendrier en fonction de la couche active
+    map.on('baselayerchange', function(e) {
+        let isCopernicus = (e.name === 'Couleurs naturelles' || e.name === 'Indice de végétation' || e.name === 'Infrarouge colorisé');
+        
+        const yearSelect = document.getElementById("year-select");
+        const monthSelect = document.getElementById("month-select");
+        const calendarDiv = document.getElementById("calendar");
+        
+        if (yearSelect) yearSelect.disabled = !isCopernicus;
+        if (monthSelect) monthSelect.disabled = !isCopernicus;
+        
+        if (calendarDiv) {
+            calendarDiv.style.opacity = isCopernicus ? '1' : '0.5';
+            calendarDiv.style.pointerEvents = isCopernicus ? 'auto' : 'none';
+        }
+    });
 
     // Afficher la zone du projet
     fetch(`actions/get_project_data.php?projet=${idProjet}`)
@@ -67,6 +94,9 @@ if (document.getElementById('map')) {
     Object.entries(copernicusLayers).forEach(([nom, layer]) => {
         layerControl.addBaseLayer(layer, nom)
     });
+
+    // Activation de la couche "Couleurs naturelles" par défaut
+    copernicusLayers['Couleurs naturelles'].addTo(map);
 
     const URL_WMS_COPERNICUS = "https://sh.dataspace.copernicus.eu/ogc/wms/040a9e84-1617-4bf1-9b85-1e537e4fcb0d";
 
