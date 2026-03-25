@@ -7,4 +7,4 @@ if (!$projet_id) {
 }
 
 // Affichage de la vue
-require __DIR__ . '/views/project_map.php';
+require __DIR__ . '/views/carto.php';

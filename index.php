@@ -12,4 +12,4 @@ while ($zone = pg_fetch_assoc($result)) {
 }
 
 // Affichage de la vue
-require __DIR__ . '/views/home.php';
+require __DIR__ . '/views/accueil.php';

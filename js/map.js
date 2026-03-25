@@ -4,14 +4,14 @@ const searchParams = new URLSearchParams(paramsString);
 const idProjet = searchParams.get("projet");
 
 // Définir ces fonctions globalement
-window.ouvrirForm = function(){
+window.ouvrirForm = function () {
     const form = document.getElementById("formulaire");
-    if(form) form.style.display = "block";
+    if (form) form.style.display = "block";
 };
 
-window.fermerForm = function(){
+window.fermerForm = function () {
     const form = document.getElementById("formulaire");
-    if(form) form.style.display = "none";
+    if (form) form.style.display = "none";
 };
 
 if (document.getElementById('map')) {
@@ -20,11 +20,11 @@ if (document.getElementById('map')) {
 
     // Ajout d'une couche OpenStreetMaps
     const osmLayer = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
     }).addTo(map);
 
     // Ajout d'un gestionnaire de couche
-    const layerControl = L.control.layers({'OpenStreetMaps': osmLayer}, {}, {collapsed: false}).addTo(map);
+    const layerControl = L.control.layers({ 'OpenStreetMaps': osmLayer }, {}, { collapsed: false }).addTo(map);
 
     // Afficher la zone du projet
     fetch(`actions/get_project_data.php?projet=${idProjet}`)
@@ -40,7 +40,7 @@ if (document.getElementById('map')) {
                 dashArray: "5, 5",     // Effet pointillé (5px trait, 5px vide)
             }
 
-            const geojsonLayer = L.geoJSON(data, {style: style}).addTo(map);
+            const geojsonLayer = L.geoJSON(data, { style: style }).addTo(map);
             layerControl.addOverlay(geojsonLayer, "Zone reforestée");
             geojsonLayer.bindPopup(popupContent);
 
@@ -57,6 +57,10 @@ if (document.getElementById('map')) {
 
         'Indice de végétation': L.tileLayer.wms("", {
             layers: 'VEGETATION_INDEX'
+        }),
+
+        'Infrarouge colorisé': L.tileLayer.wms("", {
+            layers: 'COLOR_INFRARED'
         })
     };
 
@@ -74,7 +78,7 @@ if (document.getElementById('map')) {
             let selectedMonth = monthSelect.value;
             return `${selectedYear}-${selectedMonth}`;
         }
-        return new Date().toJSON().slice(0,7);
+        return new Date().toJSON().slice(0, 7);
     }
 
     function updateCopernicusLayers(date) {
@@ -84,7 +88,7 @@ if (document.getElementById('map')) {
             layer.setUrl(urlWmsCopernicus);
         })
     }
-    
+
     // Initialisation
     let date = getSelectedDate();
     updateCopernicusLayers(date);
