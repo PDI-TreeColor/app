@@ -34,7 +34,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['ajouter_zone'])) {
         $nomImageOrig = basename($_FILES['image']['name']);
         $destination = $dossier . $nomImageOrig;
         move_uploaded_file($_FILES['image']['tmp_name'], $destination);
-        
+
         $imagePathDb = $newId . '/' . $nomImageOrig;
         $updateQuery = "UPDATE zones SET image = $1 WHERE id = $2";
         pg_query_params($conn, $updateQuery, [$imagePathDb, $newId]);

@@ -35,6 +35,32 @@
 
     <div id="accueil">
         <a href="index.php"><button class="bouton_accueil">Retour à la page d'accueil</button></a>
+        <button class="bouton_photo" onclick="ouvrirPhotoForm()">Ajouter une photo de terrain</button>
+    </div>
+
+    <!-- Formulaire d'ajout de photo (caché par défaut) -->
+    <div id="photo-form-container" class="form-overlay" style="display:none;">
+        <div class="form-card">
+            <h3>Ajouter une photo</h3>
+            <form id="add-photo-form" enctype="multipart/form-data">
+                <input type="hidden" name="zone_id" value="<?php echo htmlspecialchars($projet_id); ?>">
+                
+                <label for="photo">Sélectionner l'image :</label>
+                <input type="file" id="photo" name="photo" accept="image/*" required>
+                
+                <label for="description">Description (Optionnel) :</label>
+                <textarea id="description" name="description" placeholder="Ex: Jeune plant de Teck..."></textarea>
+                
+                <div class="location-selection-info" style="margin-top: 15px; font-size: 13px; color: #666; font-style: italic;">
+                    <p>ℹ️ La photo doit être géo-référencée (coordonnées GPS incluses dans le fichier).</p>
+                </div>
+
+                <div class="form-buttons">
+                    <button type="submit" class="btn-primary">Enregistrer</button>
+                    <button type="button" class="btn-secondary" onclick="fermerPhotoForm()">Annuler</button>
+                </div>
+            </form>
+        </div>
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"

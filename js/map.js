@@ -13,6 +13,25 @@ window.fermerForm = function () {
     if (form) form.style.display = "none";
 };
 
+// --- Gestion des Photos de terrain ---
+
+let photoLayer = L.layerGroup();
+let manualLocationMode = false;
+let tempMarker = null;
+
+window.ouvrirPhotoForm = function() {
+    document.getElementById('photo-form-container').style.display = 'flex';
+};
+
+window.fermerPhotoForm = function() {
+    document.getElementById('photo-form-container').style.display = 'none';
+    resetPhotoForm();
+};
+
+function resetPhotoForm() {
+    document.getElementById('add-photo-form').reset();
+}
+
 if (document.getElementById('map')) {
     const map = L.map('map');
 
@@ -23,7 +42,7 @@ if (document.getElementById('map')) {
     const googleSat = L.tileLayer('https://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
         subdomains: ['mt0', 'mt1', 'mt2', 'mt3'],
         attribution: '© Google'
-    })
+    });
 
     const layerControl = L.control.layers({
         '<b>Fonds de carte</b>': L.layerGroup(),
@@ -70,6 +89,7 @@ if (document.getElementById('map')) {
             layerControl.addOverlay(geojsonLayer, "Zone reforestée");
             geojsonLayer.bindPopup(popupContent);
             map.fitBounds(geojsonLayer.getBounds());
+            // Un petit hack pour forcer Leaflet à se rafraîchir
             setTimeout(() => { map.invalidateSize(); }, 200);
         })
         .catch(err => console.error("Erreur :", err));
@@ -86,6 +106,76 @@ if (document.getElementById('map')) {
     Object.entries(copernicusLayers).forEach(([nom, layer]) => {
         layerControl.addBaseLayer(layer, nom);
     });
+
+    // --- Initialisation des Photos ---
+    photoLayer.addTo(map);
+    layerControl.addOverlay(photoLayer, "Photos de terrain");
+
+    function loadPhotos() {
+        if (!idProjet) return;
+        fetch(`actions/get_photos.php?projet=${idProjet}`)
+            .then(res => res.json())
+            .then(data => {
+                photoLayer.clearLayers();
+                L.geoJSON(data, {
+                    pointToLayer: function(feature, latlng) {
+                        const photoIcon = L.divIcon({
+                            html: `<div style="background-image: url('${feature.properties.url}'); background-size: cover; width: 40px; height: 40px; border: 2px solid #000; box-shadow: 3px 3px 0px #d63384;"></div>`,
+                            className: 'photo-marker-icon',
+                            iconSize: [40, 40],
+                            iconAnchor: [20, 20]
+                        });
+                        return L.marker(latlng, { icon: photoIcon });
+                    },
+                    onEachFeature: function(feature, layer) {
+                        const popupContent = `
+                            <div class="photo-popup" style="width: 250px;">
+                                <a href="${feature.properties.url}" target="_blank" title="Cliquez pour agrandir">
+                                    <img src="${feature.properties.url}" style="width: 100%; border: 1px solid #000; cursor: pointer;">
+                                </a>
+                                <p style="margin: 10px 0; font-size: 13px;">${feature.properties.description || 'Sans description'}</p>
+                                <small style="display: block; color: #666; margin-bottom: 10px;">${new Date(feature.properties.date_photo).toLocaleDateString()}</small>
+                                <button onclick="deletePhoto(${feature.properties.id})" style="font-size: 11px; color: #d63384; border: 1px solid #d63384; background: none; cursor: pointer; padding: 3px 8px; text-transform: uppercase;">Supprimer</button>
+                            </div>
+                        `;
+                        layer.bindPopup(popupContent, { maxWidth: 300 });
+                    }
+                }).addTo(photoLayer);
+            });
+    }
+
+    window.deletePhoto = function(id) {
+        if (!confirm("Supprimer cette photo ?")) return;
+        const formData = new FormData();
+        formData.append('id', id);
+        fetch('actions/delete_photo.php', {
+            method: 'POST',
+            body: formData
+        }).then(() => loadPhotos());
+    };
+
+    loadPhotos();
+
+    const photoForm = document.getElementById('add-photo-form');
+    if (photoForm) {
+        photoForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const formData = new FormData(this);
+            fetch('actions/add_photo.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.success) {
+                    fermerPhotoForm();
+                    loadPhotos();
+                } else {
+                    alert("Erreur : " + data.error);
+                }
+            });
+        });
+    }
 
     function getSelectedDate() {
         const yearSelect = document.getElementById("year-select");
@@ -111,5 +201,5 @@ if (document.getElementById('map')) {
         });
     }
 
-    googleSat.addTo(map);
+    copernicusLayers['Couleurs naturelles'].addTo(map);
 }
