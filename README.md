@@ -7,22 +7,19 @@ Application web conçue pour le suivi et la gestion de projets de reforestation 
 ## 2. Fonctionnalités
 
 *   **Gestion de Projets** : Ajouter, visualiser et supprimer des projets de reforestation.
-*   **Carte Interactive** : Utilise Leaflet pour afficher les zones de projet sur une couche de base OpenStreetMap.
-*   **Import de Données** : Les utilisateurs peuvent importer les délimitations de leurs projets en utilisant des fichiers KML.
-*   **Imagerie Satellite** : S'intègre avec l'écosystème Copernicus pour superposer des couches satellites (par exemple, Couleurs Naturelles, Indice de Végétation).
-*   **Analyse Temporelle** : Un sélecteur de date permet de visualiser les données satellites pour différents mois et années.
-*   **Fonctionnalités SIG** :
-    *   Calcule et affiche la superficie de chaque zone de projet.
-    *   Inclut des outils cartographiques pour mesurer manuellement les distances et les surfaces.
-*   **Conteneurisé** : L'ensemble de l'application est conteneurisé avec Docker et Docker Compose pour une installation et un déploiement faciles.
+*   **Carte Interactive** : Utilise Leaflet pour afficher les zones de projet sur des couches de base variées (OpenStreetMap, Satellite Google).
+*   **Création de Zones (Dessin interactif)** : Les utilisateurs peuvent délimiter la zone de leurs projets en dessinant directement un polygone sur une carte intégrée (Leaflet Draw), remplaçant l'ancien système fastidieux d'import KML.
+*   **Imagerie Satellite Temporelle** : S'intègre avec l'écosystème Copernicus pour superposer des couches de surveillance (Couleurs Naturelles, Indice de Végétation, Infrarouge Colorisé).
+*   **Analyse Temporelle** : Un sélecteur de date permet de visualiser l'évolution de la zone couverte mois par mois via les API Copernicus.
+*   **Fonctionnalités SIG** : Calcule et affiche dynamiquement la superficie de chaque zone de projet en mètres carrés.
+*   **Conteneurisé** : L'ensemble de l'application (serveur Web + Base de données spatiale) est conteneurisé avec Docker et Docker Compose pour garantir la portabilité.
 
 ## 3. Stack Technique
 
-*   **Backend** : PHP
-*   **Frontend** : HTML, CSS, JavaScript
-*   **Base de données** : PostgreSQL avec l'extension PostGIS pour les données géospatiales.
-*   **Bibliothèque cartographique** : Leaflet.js.
-*   **Traitement de données géospatiales** : `geoPHP` pour la conversion de KML en GeoJSON.
+*   **Backend** : PHP (Architecture MVC, schematisée en actions backend / vues frontend isolées)
+*   **Frontend** : HTML, CSS, JavaScript (Vanilla + Bootstrap)
+*   **Base de données** : PostgreSQL avec l'extension PostGIS pour la gestion de l'attribut `geom` (géométries des zones).
+*   **Bibliothèques Cartographiques** : Leaflet.js et le plugin Leaflet Draw.
 *   **Conteneurisation** : Docker, Docker Compose.
 
 ## 4. Tutoriel d'Installation
@@ -39,62 +36,61 @@ Ce tutoriel vous guidera pour lancer l'application sur votre machine locale.
 1.  **Clonez le dépôt**
     Si le projet est sur Git, clonez-le. Sinon, assurez-vous d'avoir tous les fichiers dans un seul dossier.
     ```bash
-    # Exemple avec git
     git clone <url-de-votre-depot>
     cd <nom-du-dossier-projet>
     ```
 
 2.  **Construisez et lancez les conteneurs**
-    Depuis la racine du projet (là où se trouve le fichier `docker-compose.yml`), exécutez la commande suivante. Elle construira le conteneur PHP, téléchargera l'image PostGIS et démarrera tous les services en arrière-plan.
+    L'ensemble de la configuration Docker se trouve désormais dans le dossier `docker/`. Vous devrez vous y déplacer ou spécifier le chemin pour lancer l'application :
     ```bash
+    cd docker
     docker-compose up -d --build
     ```
-    La base de données sera automatiquement initialisée avec le schéma et les données d'exemple de `init.sql`.
+    *(Alternativement, depuis la racine : `docker compose -f docker/docker-compose.yml up -d --build`)*
+    La base de données sera automatiquement initialisée avec le schéma et des données d'exemple via `docker/init.sql`.
 
 3.  **Accédez à l'application**
-    *   L'application principale est disponible à l'adresse **`http://localhost:8080`**.
-    *   La base de données PostgreSQL est accessible sur le port **`5433`** de votre machine locale si vous avez besoin de vous y connecter avec un client de base de données (comme DBeaver ou pgAdmin).
+    *   L'application est disponible à l'adresse **`http://localhost:8080`**.
+    *   La base de données PostgreSQL est exposée sur le port **`5433`** de votre machine locale (utilisateur: `treecolor` / mot de passe: `treecolor`).
 
 ## 5. Utilisation
 
 ### Gestion des Projets (Page d'accueil)
 
-La page d'accueil (`index.php`) liste tous les projets existants et vous permet de les gérer.
+La page d'accueil liste tous les projets existants sous forme de cartes de visite paramétrables.
 
 *   **Pour ajouter un projet** :
-    1.  Cliquez sur le bouton "AJOUTER UN PAYS".
-    2.  Remplissez le nom du projet.
-    3.  Téléversez un fichier `.kml` définissant la limite géographique du projet.
-    4.  Téléversez une image représentative pour le projet.
-    5.  Cliquez sur "Valider".
+    1.  Cliquez sur le bouton "AJOUTER UN PROJET".
+    2.  Renseignez le nom du projet.
+    3.  Une grande carte s'affiche : utilisez l'outil de création de polygone situé sur la gauche de la carte pour **dessiner avec précision la délimitation géographique** du projet (cliquez sur chaque sommet, puis double-cliquez ou cliquez sur le point de départ pour boucler la forme).
+    4.  Téléversez (facultativement) une photo représentative de la région.
+    5.  Validez le projet.
 
 *   **Pour supprimer un projet** :
-    *   Cliquez sur le bouton "Supprimer le projet" à côté du projet que vous souhaitez supprimer.
+    *   Cliquez sur le bouton "Supprimer le projet". La géométrie en base ainsi que l'image associée seront supprimées et nettoyées du disque.
 
-### Visualisation Cartographique
+### Visualisation Cartographique détaillée
 
 *   **Pour voir un projet** :
-    *   Sur la page d'accueil, cliquez sur le bouton "Voir le projet".
+    *   Sur la page d'accueil, cliquez sur "Voir le projet".
 
-*   **Sur la page de la carte (`visualisation.php`)** :
-    *   **Couches** : Utilisez le contrôle des couches en haut à droite pour basculer entre les fonds de carte (OpenStreetMap, Copernicus) et pour afficher/masquer la zone du projet.
-    *   **Sélection de la date** : Utilisez les menus déroulants en haut à gauche pour sélectionner une année et un mois. Cela mettra à jour les couches satellites Copernicus pour afficher les données de cette période.
+*   **Sur la page de la carte** :
+    *   **Couches** : Utilisez le sélecteur en haut à droite pour basculer entre vos couches par défaut (Couleurs Naturelles, Indice de Végétation, Google Satellite, OSM).
+    *   **Sélecteur temporel** : Le calendrier vous permet de modifier dynamiquement les strates Copernicus affichées. (Note : les menus de dates se grisent automatiquement lorsque vous consultez une couche qui ne dépend pas d'évolution temporelle mensuelle, comme Google Satellite).
 
-## 6. Structure des Fichiers
+## 6. Structure de l'Architecture
+
+L'application est découpée de manière propre et structurée afin de séparer la logique métier de l'interface utilisateur :
 
 ```
 .
-├── data/                 # Stocke les images et les GeoJSON générés
-├── js/
-│   ├── date-selection.js # Logique pour les menus de date
-│   └── map.js            # Logique principale de la carte Leaflet
-├── php/                  # Contexte de build Docker pour le conteneur PHP
-│   └── Dockerfile
-├── vendor/               # Dépendances Composer (ex: geoPHP)
-├── docker-compose.yml    # Définit les services de l'application (PHP, PostGIS)
-├── index.php             # Page principale pour la gestion des projets
-├── init.sql              # Script d'initialisation de la base de données
-├── read_db.php           # API pour récupérer les données GeoJSON
-├── style*.css            # Fichiers de style
-└── visualisation.php     # Page qui affiche la carte Leaflet
+├── actions/              # Scripts backend de traitement (CRUD BDD + requêtes SQL de récupération)
+├── config/               # Fichiers de configuration globale (Connexion BDD standardisée)
+├── data/                 # Stockage des images d'illustration triées par id_projet ({id}/img.jpg)
+├── docker/               # Outils de conteneurisation (docker-compose.yml, init.sql, Dockerfile)
+├── js/                   # Scripts Frontend de logique cartographique (map.js)
+├── styles/               # Feuilles de styles CSS paramétriques et design system
+├── views/                # Templates HTML purs et complets (accueil, carto) injectés par les contrôleurs
+├── index.php             # Contrôleur frontal de bootstraping de la page d'accueil
+└── visualisation.php     # Contrôleur frontal chargeant le contexte pour l'observation d'un projet
 ```
