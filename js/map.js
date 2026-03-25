@@ -32,9 +32,14 @@ if (document.getElementById('map')) {
 
     // Ajout d'un gestionnaire de couche
     const layerControl = L.control.layers({ 
+        '<b>Fonds de carte</b>': L.layerGroup(), // Dummy layer for header
         'OpenStreetMaps': osmLayer,
         'Satellite (Google)': googleSat 
     }, {}, { collapsed: false }).addTo(map);
+
+    // Suppression du bouton radio pour le header (hack CSS)
+    map.on('overlayadd', function() { /* fallback */ }); 
+
 
     // Gestion de l'état du calendrier en fonction de la couche active
     map.on('baselayerchange', function(e) {
@@ -61,10 +66,12 @@ if (document.getElementById('map')) {
             popupContent.textContent = `${data.features[0].properties.surface} m²`;
 
             let style = {
-                color: "#ff0000",    // Couleur de la bordure (rouge)
-                weight: 1,             // Bordure fine (1px)
+                color: "#000000",    // Bordure Noire
+                weight: 2,             // Bordure un peu plus épaisse
                 opacity: 1,            // Bordure bien visible
-                dashArray: "5, 5",     // Effet pointillé (5px trait, 5px vide)
+                fillColor: "#d63384",  // Remplissage Rose
+                fillOpacity: 0.2,      // Opacité du remplissage
+                dashArray: "0",        // On retire l'effet pointillé pour plus de netteté
             }
 
             const geojsonLayer = L.geoJSON(data, { style: style }).addTo(map);
@@ -91,12 +98,14 @@ if (document.getElementById('map')) {
         })
     };
 
+    layerControl.addBaseLayer(L.layerGroup(), '<b>Imagerie Temporelle</b>'); // Header
+
     Object.entries(copernicusLayers).forEach(([nom, layer]) => {
         layerControl.addBaseLayer(layer, nom)
     });
 
-    // Activation de la couche "Couleurs naturelles" par défaut
-    copernicusLayers['Couleurs naturelles'].addTo(map);
+    // Activation de la couche "Google Satellite" par défaut
+    googleSat.addTo(map);
 
     const URL_WMS_COPERNICUS = "https://sh.dataspace.copernicus.eu/ogc/wms/040a9e84-1617-4bf1-9b85-1e537e4fcb0d";
 

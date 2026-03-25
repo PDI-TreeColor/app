@@ -7,6 +7,7 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
     <title>Accueil TreeColor</title>
+    <link href="https://fonts.googleapis.com/css2?family=Belleza&display=swap" rel="stylesheet">
     <link href="styles/accueil.css" rel="stylesheet">
     <!-- Leaflet & Leaflet Draw -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
@@ -22,8 +23,7 @@
             <h3>Projet
                 <?php echo htmlspecialchars($projet['nom']); ?>
             </h3>
-            <img src="data/<?php echo htmlspecialchars($projet['image']); ?>" class="card-img-top" alt="..."
-                style="width: 300px;">
+            <img src="data/<?php echo htmlspecialchars($projet['image']); ?>" class="card-img-top" alt="...">
             <div class="card-body">
                 <form action="visualisation.php" method="GET">
                     <input type="hidden" name="projet" value="<?php echo htmlspecialchars($projet['id']); ?>">

@@ -1,137 +1,144 @@
+/* styles/accueil.css */
 body {
-  font-family: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
-  background-color: #f8f9fa;
-  color: #333;
+  font-family: 'Calibri', 'Candara', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  background-color: #ffffff;
+  color: #000000;
+  margin: 0;
+  line-height: 1.6;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Belleza', sans-serif;
+  color: #000000;
+  font-weight: 400; /* Belleza looks better at normal weight */
 }
 
 h1 {
   text-align: center;
-  color: #2b8a3e;
-  margin: 40px 0;
-  font-weight: 700;
+  margin: 60px 0;
+  font-size: 2.5rem;
+  letter-spacing: 1px;
 }
 
 .projets-container {
   display: flex;
-  gap: 30px;
+  gap: 40px;
   justify-content: center;
   flex-wrap: wrap;
-  padding: 0 20px;
+  padding: 0 40px 100px;
 }
 
 .projet {
-  background: white;
-  border-radius: 16px;
+  background: #ffffff;
+  border-radius: 0; /* SQUARE */
   overflow: hidden;
-  width: 320px;
-  border: 1px solid rgba(0, 0, 0, 0.08);
-  /* softer border */
-  text-align: center;
-  padding-bottom: 20px;
-  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.05);
-  /* Modern shadow */
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
-  /* smooth hover */
+  width: 350px;
+  border: 1px solid #000000; /* Black solid border as per request */
+  text-align: left;
+  padding-bottom: 25px;
+  box-shadow: none; /* Minimalist, no shadow like some professional themes */
+  transition: transform 0.2s ease;
 }
 
 .projet:hover {
-  transform: translateY(-8px);
-  box-shadow: 0 16px 32px rgba(0, 0, 0, 0.1);
+  transform: translateY(-5px);
+  border-color: #d63384; /* Pink border on hover */
 }
 
 .projet img {
   width: 100%;
-  height: 200px;
+  height: 220px;
   object-fit: cover;
-  border-bottom: 2px solid #ebfbee;
+  display: block;
 }
 
 .projet h3 {
-  color: #2b8a3e;
+  padding: 0 20px;
   margin-top: 20px;
-  font-weight: 600;
+  font-size: 1.5rem;
+}
+
+.card-body {
+  padding: 0 20px;
+}
+
+button, .carte-bouton, .bouton-suppr, #PLUS button {
+  border-radius: 0 !important; /* SQUARE MANDATORY */
+  text-transform: uppercase;
+  font-family: 'Belleza', sans-serif;
+  letter-spacing: 1px;
 }
 
 .carte-bouton {
-  background: #40c057;
-  /* brighter green */
+  background: #2b8a3e; /* Vert */
   color: white;
-  border: none;
+  border: 1px solid #2b8a3e;
   font-weight: 600;
-  border-radius: 8px;
-  padding: 10px 24px;
+  padding: 12px 24px;
   margin-top: 15px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  width: 80%;
+  transition: all 0.2s ease;
+  width: 100%;
 }
 
 .carte-bouton:hover {
-  background: #2f9e44;
-  transform: scale(1.02);
+  background: #ffffff;
+  color: #2b8a3e;
 }
 
 .bouton-suppr {
-  background: #ff6b6b;
-  /* softer red */
-  color: white;
-  border: none;
+  background: transparent;
+  color: #000000;
+  border: 1px solid #000000;
   font-weight: 600;
-  border-radius: 8px;
   padding: 10px 24px;
   margin-top: 10px;
   cursor: pointer;
-  transition: background-color 0.2s ease, transform 0.1s ease;
-  width: 80%;
+  transition: all 0.2s ease;
+  width: 100%;
 }
 
 .bouton-suppr:hover {
-  background: #f03e3e;
-  transform: scale(1.02);
+  background: #d63384; /* Rose on hover */
+  color: white;
+  border-color: #d63384;
 }
 
 #PLUS {
   position: fixed;
   bottom: 40px;
   right: 40px;
-  left: auto;
-  /* removing static positioning */
   z-index: 100;
 }
 
 #PLUS button {
-  background: #2b8a3e;
+  background: #000000; /* Black */
   color: white;
-  border: none;
-  border-radius: 50px;
-  padding: 15px 30px;
+  border: 1px solid #000000;
+  padding: 15px 35px;
   font-size: 16px;
-  font-weight: bold;
-  box-shadow: 0 4px 12px rgba(43, 138, 62, 0.4);
   cursor: pointer;
-  transition: all 0.3s ease;
+  transition: all 0.2s ease;
 }
 
 #PLUS button:hover {
-  transform: translateY(-3px);
-  box-shadow: 0 8px 16px rgba(43, 138, 62, 0.5);
-  background: #237032;
+  background: #d63384; /* Pink */
+  border-color: #d63384;
 }
 
+/* Modale / Formulaire */
 #formulaire {
   position: fixed;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  /* proper centering */
-  bottom: auto;
   background: white;
-  padding: 30px;
-  border-radius: 16px;
-  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+  padding: 40px;
+  border-radius: 0; /* SQUARE */
+  border: 2px solid #000000;
+  box-shadow: 20px 20px 0px rgba(214, 51, 132, 0.2); /* Brutalist pink shadow */
   display: none;
   z-index: 1000;
-  /* stays on top */
   width: 95%;
   max-width: 1200px;
   max-height: 95vh;
@@ -139,74 +146,71 @@ h1 {
 }
 
 #formulaire label {
+  font-family: 'Belleza', sans-serif;
   font-weight: 600;
-  color: #495057;
-  margin-bottom: 5px;
+  color: #000000;
+  margin-bottom: 8px;
   display: block;
-  text-align: left;
+  text-transform: uppercase;
+  font-size: 0.9rem;
 }
 
 #formulaire input[type="text"],
 #formulaire input[type="file"] {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #dee2e6;
-  border-radius: 8px;
-  margin-bottom: 20px;
-  font-family: inherit;
-  box-sizing: border-box;
+  padding: 12px;
+  border: 1px solid #000000;
+  border-radius: 0;
+  margin-bottom: 25px;
+  font-family: 'Calibri', sans-serif;
 }
 
 #formulaire button[type="submit"] {
-  background: #40c057;
+  background: #d63384; /* Rose */
   color: white;
-  border: none;
+  border: 1px solid #d63384;
+  padding: 15px;
   font-weight: bold;
-  border-radius: 8px;
-  padding: 12px 20px;
   cursor: pointer;
   width: 100%;
-  margin-bottom: 10px;
-  transition: background-color 0.2s ease;
+  margin-bottom: 15px;
 }
 
 #formulaire button[type="submit"]:hover {
-  background: #2f9e44;
+  background: #000000;
+  border-color: #000000;
 }
 
 #formulaire button[type="button"] {
-  background: #f1f3f5;
-  color: #495057;
-  border: none;
+  background: #ffffff;
+  color: #000000;
+  border: 1px solid #000000;
+  padding: 15px;
   font-weight: bold;
-  border-radius: 8px;
-  padding: 12px 20px;
   cursor: pointer;
   width: 100%;
   margin-bottom: 10px;
-  transition: background-color 0.2s ease;
 }
 
 #formulaire button[type="button"]:hover {
-  background: #e9ecef;
+  background: #f8f9fa;
 }
 
 #map-draw {
   width: 100%;
   height: 500px;
   margin-bottom: 20px;
-  border-radius: 8px;
-  z-index: 10;
+  border: 1px solid #000000;
+  border-radius: 0;
 }
 
 .form-layout {
   display: flex;
-  gap: 40px;
-  align-items: flex-start;
+  gap: 50px;
 }
 
 .form-fields {
-  flex: 0 0 300px;
+  flex: 0 0 320px;
   display: flex;
   flex-direction: column;
 }
@@ -216,18 +220,16 @@ h1 {
   min-width: 0;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 992px) {
   .form-layout {
     flex-direction: column;
   }
   .form-fields {
     flex: 1;
     width: 100%;
-  }
-  .form-map {
-    width: 100%;
+    margin-bottom: 30px;
   }
   #map-draw {
-    height: 350px;
+    height: 400px;
   }
 }

@@ -1,0 +1,135 @@
+/* styles/carto.css */
+body {
+    font-family: 'Calibri', 'Segoe UI', system-ui, -apple-system, sans-serif;
+    background-color: #ffffff;
+    color: #000000;
+    margin: 0;
+    overflow: hidden;
+}
+
+#map {
+    height: 100vh;
+    width: 100vw;
+    z-index: 0;
+}
+
+#calendar {
+    position: absolute;
+    top: 100px;
+    left: 20px;
+    z-index: 1000;
+    background: #ffffff;
+    padding: 15px 20px;
+    border: 1px solid #000000;
+    border-radius: 0; /* SQUARE */
+    box-shadow: 10px 10px 0px rgba(43, 138, 68, 0.15); /* Brutalist green shadow */
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.calendar-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #2b8a3e;
+    background: rgba(43, 138, 62, 0.05);
+    padding: 10px;
+    border-radius: 0;
+}
+
+.select-group {
+    display: flex;
+    gap: 10px;
+}
+
+.custom-select {
+    appearance: none;
+    -webkit-appearance: none;
+    background-color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 0; /* SQUARE */
+    padding: 10px 35px 10px 15px;
+    font-size: 14px;
+    font-weight: 500;
+    font-family: 'Belleza', sans-serif;
+    color: #000000;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23000000' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'%3E%3C/polyline%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+    background-size: 16px;
+    text-transform: uppercase;
+}
+
+.custom-select:hover {
+    background-color: #f8f9fa;
+    border-color: #d63384; /* Pink border */
+}
+
+.custom-select:focus {
+    outline: none;
+    border-color: #d63384;
+}
+
+#accueil {
+    position: absolute;
+    bottom: 30px;
+    left: 30px;
+    z-index: 1000;
+}
+
+.bouton_accueil {
+    background: #000000;
+    color: #ffffff;
+    border: 1px solid #000000;
+    border-radius: 0; /* SQUARE */
+    padding: 15px 25px;
+    font-size: 14px;
+    font-weight: 600;
+    font-family: 'Belleza', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 10px 10px 0px rgba(214, 51, 132, 0.2); /* Brutalist pink shadow */
+}
+
+.bouton_accueil:hover {
+    background: #d63384; /* Rose */
+    border-color: #d63384;
+    transform: translate(-2px, -2px);
+    box-shadow: 12px 12px 0px rgba(214, 51, 132, 0.3);
+}
+
+/* Leaflet Overrides for Square UI */
+.leaflet-bar a, .leaflet-control-layers {
+    border: 1px solid #000000 !important;
+    border-radius: 0 !important;
+    box-shadow: none !important;
+}
+
+.leaflet-control-layers-expanded {
+    padding: 15px !important;
+    font-family: 'Belleza', sans-serif !important;
+    text-transform: uppercase;
+    font-size: 12px;
+}
+
+/* Cacher le bouton radio pour les en-têtes (labels avec <b>) */
+.leaflet-control-layers-base label:has(b) input {
+    display: none;
+}
+.leaflet-control-layers-base label:has(b) {
+    pointer-events: none;
+    cursor: default;
+    margin-top: 10px;
+    margin-bottom: 5px;
+    display: block;
+    border-bottom: 1px solid #000;
+    padding-bottom: 3px;
+}
+.leaflet-control-layers-base label:has(b):first-child {
+    margin-top: 0;
+}
